@@ -58,7 +58,7 @@ body {
     opacity: 0;
     transform: scale(1);
     padding: 2em;
-    height: 70vh;
+    height: 60vh;
     transition: all .2s;
     position: absolute;
     left: 0;
@@ -84,10 +84,33 @@ body {
     /* padding: 0; */
     margin: 0;
     animation: fadein .2s linear forwards;
+    z-index: 1;
+}
+
+.todo-schedule li {
+    padding: 1em;
+}
+
+.todo-schedule li:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,.05);
 }
 
 .todo-schedule .selected li {
     animation: slidein .1s ease-out 0s 1 forwards;
+}
+
+form {
+    padding: 1em;
+}
+
+form input {
+    padding: 1em;
+}
+
+form select, form button {
+    padding: 1em;
+    height: 3.5em;
+    border-radius: 0;
 }
 
 @keyframes fadein {
