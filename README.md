@@ -1,7 +1,7 @@
 # nextweek
-a simple calendar/todolist using localStorage
+A simple calendar/todolist using localStorage
 
-nextweek is a plain todolist app, that allows users to enter todos for the current (or, on Sunday) the upcoming week.
+Nextweek is a plain todolist app, that allows users to enter todos for the current (or, on Sunday) the upcoming week.
 
 Todos are a flat array, stored in and retrieved from localStorage.
 
