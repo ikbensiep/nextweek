@@ -3,7 +3,7 @@ const weekdays  = document.querySelectorAll('.weekdays li');
 let selectedWeekday = 0;
 let selectedMoment;
 let selectedDate;
-const todos = JSON.parse(localStorage.getItem('todos')) || [];
+let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 function selectDay () {
     selectedWeekday = parseInt(this.dataset.day);
@@ -12,6 +12,7 @@ function selectDay () {
     weekdays.forEach(weekday => {
         weekday.classList.remove('selected');
     });
+
     this.classList.add('selected');
     displayTodos();
 }
@@ -19,15 +20,23 @@ function selectDay () {
 function displayTodos () {
     let days = [];
             
-    weekdays.forEach(weekday => {
+    weekdays.forEach( (weekday, i) => {
         let date = parseInt(weekday.dataset.date);
         let todaystodos = todos.filter(todo => (todo.date == date));
-        let html = todaystodos.map(todo => `<li data-moment="${todo.moment}">${todo.label}</li>`);
-        days.push(`<ul class="${selectedDate == date ? 'selected' : ''}" data-day="${date}">${html.join('')}</ul>`);
+        let html = todaystodos.map(todo => `<li data-moment="${todo.moment}">${todo.label}<button data-action="delete">&times;</button></li>`);
+        let weekdayName = document.querySelectorAll('.weekdays li')[i].dataset.dayname;
+        days.push(`<ul class="${selectedDate == date ? 'selected' : ''}" data-day="${date}" id="${weekdayName}">${html.join('')}</ul>`);
     });
     
     document.querySelector('.todo-schedule').innerHTML = days.join('');
 
+    let deleteButtons = document.querySelectorAll('button[data-action=delete]');
+    for( const btn of deleteButtons ) {
+        btn.addEventListener('click', deleteTask);
+    }
+
+    document.location.hash = '#' + (document.querySelector('.todo-schedule ul.selected')).id;
+    
 }
 
 // sets html data-attribute to day's date
@@ -42,6 +51,7 @@ function displayWeek () {
 
 function saveTask (e) {
     e.preventDefault();
+    
     let label = this.querySelector('input[name=task-label]');
     let selectedMoment = (this.querySelector('[name=task-moment]')).value;
 
@@ -66,6 +76,8 @@ function saveTask (e) {
     li.appendChild(t);
     todaystasks.appendChild(li);
     
+    label.value = '';
+
     document.querySelector('[name=task-moment]').selectedIndex = todaystasks.childNodes.length;
 
     if (todaystasks.childNodes.length == 2) {
@@ -73,6 +85,22 @@ function saveTask (e) {
     } else {
         document.forms[0]['task-moment'].removeAttribute('disabled');
     }
+}
+
+function deleteTask (event) {
+    let day = event.target.parentNode.parentNode.getAttribute('data-day')
+    let moment = event.target.parentNode.getAttribute('data-moment');
+    
+    let index = todos.findIndex(todo => (todo.date == day && todo.moment == moment));
+
+    const newTasks = [
+        ...todos.slice(0, index),
+        ...todos.slice(index + 1)
+      ];
+
+    todos = newTasks;
+    localStorage.setItem('todos', JSON.stringify(todos));
+    displayTodos();
 }
 
 function initialize () {
