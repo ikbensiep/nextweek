@@ -42,13 +42,16 @@ body {
 /* todos */
 
 .todo-schedule {
+    background-color: #f0f0f0;
     list-style: none;
     display: flex;
-    overflow-x: scroll;
+    overflow: hidden;
     position: relative;
     flex: 1;
     flex-grow: 1;
+    flex-direction: row;
     height: 70vh;
+    scroll-behavior: smooth;
 }
 
 .todo-schedule ul {
@@ -60,7 +63,6 @@ body {
     padding: 2em;
     height: 60vh;
     transition: all .2s;
-    position: absolute;
     left: 0;
     list-style: none;
 }
@@ -89,6 +91,10 @@ body {
 
 .todo-schedule li {
     padding: 1em;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
 }
 
 .todo-schedule li:not(:last-child) {
