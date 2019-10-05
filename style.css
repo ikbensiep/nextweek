@@ -5,10 +5,17 @@
 html, body {
     padding: 0;
     margin: 0;
+    height: 100%;
 }
 
 body {
     font-family: 'Roboto Condensed', "Helvetica Neue", Arial, Helvetica, sans-serif;
+    display: grid;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    flex-direction: column;
+    width: 100%;
 }
 
 /* calendar */
@@ -17,54 +24,75 @@ body {
     display: flex;
     padding: 0;
     justify-content: space-evenly;
+    column-gap: 1em;
+    position: absolute;
+    z-index: 1;
+    overflow-x: auto;
+    width: 100vw;
+    background: white;
+    margin: 0;
+    top: 0;
 }
 
 .weekdays li {
     cursor: pointer;
-    min-height: 3em;
-    min-width: 3em;
+    line-height: 3em;
     text-align: center;
-    padding: 1em;
+    padding: 1em 0;
+    position: relative;
+    justify-content: space-between;
+    flex: 1;
 }
 
-.weekdays li:before {
-    content: attr(data-dayname);
-}
-
-.weekdays li.today {
-    box-shadow: inset 0 0 0 1px black;
+.weekdays li.today::before {
+    content: '';
+    display: block;
+    background: #673AB7;
+    width: 1ex;
+    height: 1ex;
+    border-radius: 50%;
+    position: absolute;
+    left: 15%;
+    top: 3ex;
 }
 
 .weekdays li.selected {
-    background: #eee;
+    background: #f0f0f0;
 }
 
 /* todos */
-
 .todo-schedule {
     background-color: #f0f0f0;
     list-style: none;
     display: flex;
     overflow: hidden;
-    position: relative;
     flex: 1;
     flex-grow: 1;
     flex-direction: row;
-    height: 70vh;
     scroll-behavior: smooth;
+    grid-row: 3 / -1;
+    z-index: 0;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
 }
 
+/* a weekday */
 .todo-schedule ul {
     display: block;
     width: 100%;
     min-width: 100%;
     opacity: 0;
     transform: scale(1);
-    padding: 2em;
-    height: 60vh;
+    padding: 1em;
     transition: all .2s;
     left: 0;
     list-style: none;
+    padding-top: 6em;
 }
 
 .todo-schedule ul:empty:before {
@@ -82,19 +110,20 @@ body {
 .todo-schedule .selected {
     transform: scale(0.98);
     opacity: 0;
-    display: block;
-    /* padding: 0; */
     margin: 0;
     animation: fadein .2s linear forwards;
     z-index: 1;
+    flex-direction: column;
 }
 
 .todo-schedule li {
     padding: 1em;
     display: flex;
     flex-direction: row;
-    flex: 1;
     justify-content: space-between;
+    align-items: center;
+    min-height: 4em;
+    line-height: 7em;
 }
 
 .todo-schedule li:not(:last-child) {
@@ -105,18 +134,105 @@ body {
     animation: slidein .1s ease-out 0s 1 forwards;
 }
 
-form {
-    padding: 1em;
+.todo-schedule li button {
+    border-radius: 50%;
+    border: 0px;
+    height: 2em;
+    width: 2em;
 }
 
+
+ label[for=toggle-new-task] {
+    border-radius: .5ex;
+    position: absolute;
+    min-width: 1cm;
+    height: 1cm;
+    line-height: 1cm;
+    text-align: center;
+    z-index: 20;
+    background: #673AB7;
+    color: white;
+    font-weight: 900;
+    transition: all .5s;
+    border: none;
+    bottom: 2em;
+    right: 2em;
+    padding: 0 1em;
+}
+
+
+input[name=toggle-new-task] {
+    display: none;
+    bottom: 10vw;
+    right: 3ex;
+}
+
+label[for=toggle-new-task] span {
+    transform: scale(2);
+}
+input[name=toggle-new-task]:checked ~ label[for=toggle-new-task] {
+    opacity: 0;
+    transform: translateY(2em);
+}
+
+input[name=toggle-new-task]:checked ~ form {
+    opacity: 1;
+    transform: translateY(1em);
+}
+
+form {
+    padding: 2em 1.5em 2em;
+    display: grid;
+    grid-gap: 1.5em;
+    position: absolute;
+    left: 2em;
+    bottom: 0;
+    background: white;
+    transform: translateY(100%);
+    opacity: 0;
+    will-change: transform;
+    transition: all .175s cubic-bezier(0.99, 0.07, 0.85, 0.91);
+    z-index: 30;
+    right: 1em;
+    border-radius: 1em;
+    box-shadow: 0 0 2em -1em;
+}
+
+form select, 
+form button,
 form input {
     padding: 1em;
+    flex: 1;
+    border-radius: .5em;
+    border: 2px solid #673AB7;
+    color: inherit;
+    padding: 1em;
+    background: #673AB7;
+    color: white;
+    flex: 1;
+    min-height: 3em;
+    font-family: inherit;
+    font-size: 1em;
 }
 
-form select, form button {
-    padding: 1em;
-    height: 3.5em;
-    border-radius: 0;
+form > div {
+    display: flex;
+    padding: 0;
+    align-content: center;
+    flex: 1;
+    justify-content: space-between;
+}
+
+form > div > button {
+    flex: 1;
+    max-width: 4cm;
+    min-height: unset;
+}
+
+::placeholder,
+::-webkit-placeholder,
+::-moz-placeholder {
+    color: white;
 }
 
 @keyframes fadein {
