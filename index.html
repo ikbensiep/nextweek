@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>📅 nextweek</title>
 </head>
 <body>
-    <h2>Todos this week</h2>
     <ul class="weekdays">
-        <li data-day="0" data-dayname="sunday" data-date=""></li>
-        <li data-day="1" data-dayname="monday" data-date=""></li>
-        <li data-day="2" data-dayname="tuesday" data-date=""></li>
-        <li data-day="3" data-dayname="wednesday" data-date=""></li>
-        <li data-day="4" data-dayname="thursday" data-date=""></li>
-        <li data-day="5" data-dayname="friday" data-date=""></li>
-        <li data-day="6" data-dayname="saturday" data-date=""></li>
+        <li data-day="0" data-dayname="sunday" data-date="">sunday</li>
+        <li data-day="1" data-dayname="monday" data-date="">monday</li>
+        <li data-day="2" data-dayname="tuesday" data-date="">tuesday</li>
+        <li data-day="3" data-dayname="wednesday" data-date="">wednesday</li>
+        <li data-day="4" data-dayname="thursday" data-date="">thursday</li>
+        <li data-day="5" data-dayname="friday" data-date="">friday</li>
+        <li data-day="6" data-dayname="saturday" data-date="">saturday</li>
     </ul>
     <div class="todo-schedule">
         <ul class="todos-today" data-day="">
@@ -26,6 +25,9 @@
         </ul>
     </div>
 
+    <input type="checkbox" name="toggle-new-task" id="toggle-new-task">
+    <label for="toggle-new-task"><span>+ </span>new task</label>
+
     <form name="addTasks">
         <input type="text" name="task-label" placeholder="task">
         <select name="task-moment">
@@ -33,7 +35,9 @@
             <option value="midday" disabled>midday</option>
             <option value="evening" disabled>evening</option>
         </select>
-        <button type="submit">+ add</button>
+        <div>
+            <button type="submit">add task</button><button type="reset">close</button>
+        </div>
     </form>
 
     <script src="main.js"></script>
