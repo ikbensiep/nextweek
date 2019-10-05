@@ -23,7 +23,6 @@ body {
     list-style: none;
     display: flex;
     padding: 0;
-    justify-content: space-evenly;
     column-gap: 1em;
     position: absolute;
     z-index: 1;
@@ -38,26 +37,48 @@ body {
     cursor: pointer;
     line-height: 3em;
     text-align: center;
-    padding: 1em 0;
+    padding: 1em;
     position: relative;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex: 1;
+    /* min-width: 5em; */
+    display: flex;
 }
 
-.weekdays li.today::before {
+.weekdays li span {
+    padding: 0 1em;
+    border-radius: 3em;
+    position: relative;
+}
+
+.weekdays li.today.selected span::before {
     content: '';
     display: block;
-    background: #673AB7;
+    background: white;
     width: 1ex;
     height: 1ex;
     border-radius: 50%;
     position: absolute;
     left: 15%;
-    top: 3ex;
+    top: 1ex;
 }
 
-.weekdays li.selected {
-    background: #f0f0f0;
+.weekdays li.today span::before {
+    content: '';
+    display: block;
+    background: #673ab7;
+    width: 1ex;
+    height: 1ex;
+    border-radius: 50%;
+    position: absolute;
+    left: 15%;
+    top: 1ex;
+}
+
+.weekdays li.selected span {
+    background: #673ab7;
+    color: white;
+   
 }
 
 /* todos */
