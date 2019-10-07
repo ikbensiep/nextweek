@@ -10,7 +10,7 @@ html, body {
 
 body {
     font-family: 'Roboto Condensed', "Helvetica Neue", Arial, Helvetica, sans-serif;
-    display: grid;
+    /* display: grid; */
     overflow: hidden;
     position: relative;
     height: 100%;
@@ -28,9 +28,10 @@ body {
     z-index: 1;
     overflow-x: auto;
     width: 100vw;
-    background: white;
+    background: #673AB7;
     margin: 0;
     top: 0;
+    box-shadow: 0 0 22px -3px #5E35B1;
 }
 
 .weekdays li {
@@ -47,11 +48,21 @@ body {
 
 .weekdays li span {
     padding: 0 1em;
-    border-radius: 3em;
+    border-radius: .5ex;
     position: relative;
+    transition: all .25s ease-in-out;
+    color: #9575CD;
+}
+
+.weekdays li:not(.selected):hover span {
+    background: #EDE7F6;
 }
 
 .weekdays li.today.selected span::before {
+    background: #D1C4E9;
+}
+
+.weekdays li.today span::before {
     content: '';
     display: block;
     background: white;
@@ -59,26 +70,13 @@ body {
     height: 1ex;
     border-radius: 50%;
     position: absolute;
-    left: 15%;
-    top: 1ex;
-}
-
-.weekdays li.today span::before {
-    content: '';
-    display: block;
-    background: #673ab7;
-    width: 1ex;
-    height: 1ex;
-    border-radius: 50%;
-    position: absolute;
-    left: 15%;
+    left: 10%;
     top: 1ex;
 }
 
 .weekdays li.selected span {
-    background: #673ab7;
+    background: #5E35B1;
     color: white;
-   
 }
 
 /* todos */
@@ -86,20 +84,23 @@ body {
     background-color: #f0f0f0;
     list-style: none;
     display: flex;
-    overflow: hidden;
     flex: 1;
     flex-grow: 1;
     flex-direction: row;
-    scroll-behavior: smooth;
     grid-row: 3 / -1;
     z-index: 0;
     height: 100vh;
     position: absolute;
+    overflow: hidden;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     width: 100vw;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* a weekday */
@@ -107,34 +108,39 @@ body {
     display: block;
     width: 100%;
     min-width: 100%;
-    opacity: 0;
+    opacity: 0.5;
     transform: scale(1);
     padding: 1em;
     transition: all .2s;
     left: 0;
     list-style: none;
     padding-top: 6em;
+    min-height: 100vh;
+    margin: 0;
+    scroll-snap-align: center;
+    scroll-padding: 10em;
 }
 
 .todo-schedule ul:empty:before {
-    content: '^_^';
+    content: '📅';
     display: flex;
     text-align: center;
     align-content: center;
     justify-content: center;
     flex-direction: column;
     height: 100%;
-    font-size: 480%;
-    color: rgba(0,0,0,.1);
+    font-size: 660%;
+    /* color: rgba(0,0,0,.1); */
 }
 
 .todo-schedule .selected {
-    transform: scale(0.98);
-    opacity: 0;
-    margin: 0;
+    /* transform: scale(0.98); */
+    /* opacity: 0; */
+    /* margin: 0; */
     animation: fadein .2s linear forwards;
     z-index: 1;
     flex-direction: column;
+    /* background: white; */
 }
 
 .todo-schedule li {
@@ -144,7 +150,7 @@ body {
     justify-content: space-between;
     align-items: center;
     min-height: 4em;
-    line-height: 7em;
+    line-height: 3em;
 }
 
 .todo-schedule li:not(:last-child) {
@@ -160,10 +166,19 @@ body {
     border: 0px;
     height: 2em;
     width: 2em;
+    transition: all .25s linear;
 }
 
+.todo-schedule li:hover button {
+    background: #673ab7;
+    color: white;
+}
 
- label[for=toggle-new-task] {
+button, label, select {
+    cursor: pointer;
+}
+
+label[for=toggle-new-task] {
     border-radius: .5ex;
     position: absolute;
     min-width: 1cm;
@@ -199,6 +214,8 @@ input[name=toggle-new-task]:checked ~ label[for=toggle-new-task] {
 input[name=toggle-new-task]:checked ~ form {
     opacity: 1;
     transform: translateY(1em);
+    visibility: visible;
+    display: grid;
 }
 
 form {
@@ -217,6 +234,7 @@ form {
     right: 1em;
     border-radius: 1em;
     box-shadow: 0 0 2em -1em;
+    display: none;
 }
 
 form select, 
@@ -225,11 +243,11 @@ form input {
     padding: 1em;
     flex: 1;
     border-radius: .5em;
-    border: 2px solid #673AB7;
+    border: 0px solid transparent;
     color: inherit;
     padding: 1em;
-    background: #673AB7;
-    color: white;
+    background: #EDE7F6;
+    color: #673AB7;
     flex: 1;
     min-height: 3em;
     font-family: inherit;
@@ -250,10 +268,15 @@ form > div > button {
     min-height: unset;
 }
 
+button[type=submit] {
+    background: #673AB7;
+    color: white;
+}
+
 ::placeholder,
 ::-webkit-placeholder,
 ::-moz-placeholder {
-    color: white;
+    color: #673ab7;;
 }
 
 @keyframes fadein {

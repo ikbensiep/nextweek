@@ -14,6 +14,8 @@ function selectDay() {
     });
 
     this.classList.add('selected');
+    
+    setTimeout(() => { document.location.hash = `#${this.dataset.dayname}`}, 125);
     displayTodos();
 }
 
@@ -47,6 +49,9 @@ function displayWeek() {
     for (var i = 0; i < weekdays.length; i++) {
         weekdays[i].dataset.date = weekstartDate + i;
     }
+
+    let todayEl = document.querySelector('.today');
+    todayEl.scrollIntoView(false);
 }
 
 function saveTask(e) {
@@ -94,6 +99,8 @@ function saveTask(e) {
         } else {
             document.forms[0]['task-moment'].removeAttribute('disabled');
         }
+    } else {
+        cancelTask();
     }
 }
 
@@ -127,14 +134,21 @@ function initialize() {
         weekday.addEventListener('click', selectDay);
     });
     selectedDate = today.getDate();
-    displayWeek();
-    displayTodos();
     document.forms.addTasks.addEventListener('submit', saveTask);
+    
     (document.querySelector('button[type=reset]')).addEventListener('click', cancelTask);
+    
+    document.querySelector('input[name=toggle-new-task]').addEventListener('change', function (e) {
+        e.target.checked && document.querySelector('input[name=task-label]').focus();
+    });
+
     document.addEventListener('keyup', function(e){
         if(e.keyCode == 78) (document.querySelector('input[name=toggle-new-task]')).checked = true;
         if(e.keyCode == 27) cancelTask();
     })
+    
+    displayWeek();
+    displayTodos();
 }
 
 initialize();
